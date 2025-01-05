@@ -7,12 +7,16 @@ from flask_pymongo import PyMongo
 from http import HTTPStatus
 
 
-# Import Settings
+# Import Settings and Logger
 from settings import get_config
+from utils.logging_setup import setup_logger
+
 
 # Creating Flask App
 app = Flask(__name__)
-logger = logging.getLogger(__name__)
+
+# Create Logger
+logger = setup_logger()
 
 # Load configuration dynamically
 Config = get_config()
