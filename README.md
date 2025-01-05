@@ -9,8 +9,7 @@ This backend API is built using Flask, a lightweight Python web framework, and M
 
 - RESTful API design with support for common CRUD operations.
 - Data is stored in MongoDB, providing flexible and scalable document storage.
-- Authentication and authorization (optional, e.g., using JWT tokens).
-- Optionally, includes other features like logging, validation, or email notifications.
+- Includes other features like logging and validation
 
 ## Technologies
 
