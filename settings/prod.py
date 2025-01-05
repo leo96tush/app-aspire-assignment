@@ -2,5 +2,5 @@
 class Config:
     DEBUG = False
     TESTING = False
-    DATABASE_URI = 'postgresql://prod_user:prod_password@prod_host/prod_db'
+    MONGO_URI = 'mongodb://localhost:27017/local_db'
     SECRET_KEY = 'super-secret-key'

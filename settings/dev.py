@@ -2,4 +2,4 @@
 class Config:
     DEBUG = True
     TESTING = False
-    DATABASE_URI = 'postgresql://dev_user:dev_password@localhost/dev_db'
+    MONGO_URI = 'mongodb://localhost:27017/local_db'
