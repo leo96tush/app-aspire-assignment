@@ -15,7 +15,7 @@ log_file = os.path.join(log_dir, 'app.log')
 def setup_logger():
     # Create the logger
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)  # Set the default log level to DEBUG (can be adjusted)
+    logger.setLevel(logging.DEBUG)  # Set the default log level to DEBUG
 
     # Create a formatter that outputs log in a readable format
     formatter = logging.Formatter(
@@ -27,7 +27,7 @@ def setup_logger():
     file_handler.setLevel(logging.INFO)  # Set the log level for the file handler (INFO logs and above)
     file_handler.setFormatter(formatter)
 
-    # Console handler (optional, for real-time logging on the console)
+    # Console handler
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)  # Console will display all logs (DEBUG and above)
     console_handler.setFormatter(formatter)
