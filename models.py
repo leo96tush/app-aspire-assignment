@@ -2,17 +2,31 @@ from datetime import datetime
 from bson.objectid import ObjectId
 
 class Tweet:
-    def __init__(self, text, user_id):
-        self.text = text
+    def __init__(self, user_id, text):
         self.user_id = user_id
+        self.text = text
         self.created_at = datetime.utcnow()
 
-    def to_dict(self):
-        return {
-            "text": self.text,
+    def save(self, mongo):
+        """Save the tweet to the MongoDB database."""
+        tweet_data = {
             "user_id": self.user_id,
+            "text": self.text,
             "created_at": self.created_at
         }
+        # Insert the tweet data into the 'tweets' collection and return the inserted ID
+        result = mongo.db.tweets.insert_one(tweet_data)
+        return result.inserted_id
+
+    @staticmethod
+    def get_all(mongo):
+        """Get all tweets from the MongoDB database."""
+        tweets_cursor = mongo.db.tweets.find()
+        tweets = []
+        for tweet in tweets_cursor:
+            tweet['_id'] = str(tweet['_id'])  # Convert ObjectId to string for JSON serialization
+            tweets.append(tweet)
+        return tweets
 
 
 # Define the User model class
