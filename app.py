@@ -1,5 +1,10 @@
 import logging
-from flask import Flask
+from flask import (
+    Flask,
+    jsonify
+)
+from http import HTTPStatus
+
 from settings import get_config
 
 app = Flask(__name__)
@@ -11,7 +16,12 @@ app.config.from_object(Config)
 
 @app.route('/ping', methods=['GET'])
 def health_check():
-    return "pong"
+    response = {
+        "status": "success",
+        "message": "pong",
+        "data": None
+    }
+    return jsonify(response), HTTPStatus.OK
 
 if __name__ == '__main__':
     app.run(debug=app.config.get('DEBUG'))
