@@ -1,0 +1,55 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment variables and secrets
+.env
+*.env
+
+# Virtual environment folders
+venv/
+.env/
+virtualenv/
+*.egg-info/
+
+# Flask debug and development files
+instance/
+*.log
+*.db
+*.sqlite3
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Pytest and coverage reports
+*.cover
+.coverage
+*.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.pytest_cache/
+htmlcov/
+
+# Migrations (optional if you use Flask-Migrate)
+migrations/
+
+# Compiled Jupyter Notebook files
+.ipynb_checkpoints/
+
+# Static and Media Files (Optional)
+staticfiles/
+mediafiles/
+
+# Docker-related files
+*.pid
