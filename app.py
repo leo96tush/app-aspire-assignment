@@ -404,6 +404,25 @@ def create_tweet():
             },
             "code": 400
         }
+
+    Example (Error - User not found):
+        POST /tweets
+        Request Body:
+        {
+            "user_id": "non_existent_user_id",
+            "text": "This is my tweet!"
+        }
+
+        Error Response:
+        {
+            "status": "error",
+            "message": "User not found",
+            "error": {
+                "code": 404,
+                "details": "User with ID non_existent_user_id not found"
+            },
+            "code": 404
+        }
     """
     try:
         # Get data from the request
@@ -422,6 +441,20 @@ def create_tweet():
                 error=error_details,
                 code=HTTPStatus.BAD_REQUEST
             )), HTTPStatus.BAD_REQUEST
+
+        # Validate that the user exists
+        user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
+        if not user:
+            error_details = {
+                "code": HTTPStatus.NOT_FOUND,
+                "details": f"User with ID {user_id} not found"
+            }
+            return jsonify(create_api_response(
+                status="error",
+                message="User not found",
+                error=error_details,
+                code=HTTPStatus.NOT_FOUND
+            )), HTTPStatus.NOT_FOUND
 
         # Create a new Tweet object
         new_tweet = Tweet(user_id=user_id, text=text)
@@ -660,7 +693,6 @@ def get_user_timeline(user_id):
     try:
         # Get the tweets from users that the user follows
         user = mongo.db.users.find_one({"_id": ObjectId(user_id)})
-
         if not user:
             return jsonify(create_api_response(
                 status="error",
@@ -678,9 +710,10 @@ def get_user_timeline(user_id):
             )), HTTPStatus.OK
 
         # Fetch tweets from all followed users
-        tweets_cursor = mongo.db.tweets.find({"user_id": {"$in": following_ids}})
+        tweets_cursor = mongo.db.tweets.find({"user_id": {"$in": list(map(str, following_ids))}})
         tweets = []
         for tweet in tweets_cursor:
+            print(tweet)
             tweet['_id'] = str(tweet['_id'])  # Convert ObjectId to string
             tweets.append(tweet)
 

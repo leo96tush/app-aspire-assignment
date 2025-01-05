@@ -31,17 +31,19 @@ class Tweet:
 
 # Define the User model class
 class User:
-    def __init__(self, username, email):
+    def __init__(self, username, email, following=None):
         self.username = username
         self.email = email
         self.created_at = datetime.utcnow()
+        self.following = following if following is not None else []
 
     def save(self, mongo):
         """Save the user to the MongoDB database."""
         user_data = {
             "username": self.username,
             "email": self.email,
-            "created_at": self.created_at
+            "created_at": self.created_at,
+            "following": self.following
         }
         # Insert the user data into the 'users' collection and return the inserted ID
         result = mongo.db.users.insert_one(user_data)
@@ -54,6 +56,8 @@ class User:
         users = []
         for user in users_cursor:
             user['_id'] = str(user['_id'])  # Convert ObjectId to string for JSON serialization
+            if 'following' in user:
+                user['following'] = [str(follow_id) for follow_id in user['following']]
             users.append(user)
         return users
 
